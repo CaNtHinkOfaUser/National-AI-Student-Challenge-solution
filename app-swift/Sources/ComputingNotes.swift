@@ -1,0 +1,433 @@
+let computingSecurityNotesHTML = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 11: Security & Privacy</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2eb;
+    --text: #1a1a1a;
+    --accent: #2a5caa;
+    --accent2: #d4380d;
+    --accent3: #389e0d;
+    --muted: #666;
+    --border: #ccc;
+    --card: #fff;
+    --tag-bg: #e6f0ff;
+    --tag-text: #2a5caa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    padding: 2rem 1rem;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  header {
+    border-left: 5px solid var(--accent);
+    padding-left: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  header .chapter-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+  }
+
+  /* Section headings */
+  .section {
+    margin-bottom: 2.2rem;
+  }
+
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1.1rem 0 0.4rem;
+    color: var(--text);
+  }
+
+  p { margin-bottom: 0.7rem; font-size: 0.93rem; }
+
+  /* Comparison table */
+  .table-wrap { overflow-x: auto; margin: 1rem 0 1.2rem; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.55rem 0.9rem;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid #e0ddd6;
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: #f9f7f2; }
+
+  /* Key term cards */
+  .keyterms {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 1.2rem;
+  }
+
+  .keyterm {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+
+  .keyterm strong {
+    display: block;
+    font-size: 0.82rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+  }
+
+  .keyterm span { font-size: 0.83rem; color: var(--muted); }
+
+  /* Threat / defence cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.9rem;
+    margin: 0.8rem 0 1.2rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    border-top: 3px solid var(--accent);
+  }
+
+  .card.red { border-top-color: var(--accent2); }
+  .card.green { border-top-color: var(--accent3); }
+
+  .card h4 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+
+  .card p { font-size: 0.83rem; color: var(--muted); margin-bottom: 0; }
+
+  /* Inline tag */
+  .tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 3px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+
+  .tag.red { background: #fff1f0; color: var(--accent2); }
+  .tag.green { background: #f0fff0; color: var(--accent3); }
+
+  /* List styling */
+  ul, ol {
+    padding-left: 1.4rem;
+    margin: 0.4rem 0 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  li { margin-bottom: 0.3rem; }
+
+  /* Callout box */
+  .callout {
+    background: #eaf2ff;
+    border-left: 4px solid var(--accent);
+    padding: 0.8rem 1.1rem;
+    border-radius: 0 6px 6px 0;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+  }
+
+  .callout.warn {
+    background: #fff7e6;
+    border-color: #fa8c16;
+  }
+
+  .callout strong { display: block; margin-bottom: 0.2rem; }
+
+  /* Signs grid */
+  .signs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 0.8rem 0 1.2rem;
+  }
+
+  .sign {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .sign h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--accent2); }
+  .sign p { font-size: 0.8rem; color: var(--muted); margin: 0; }
+
+  /* Divider */
+  hr { border: none; border-top: 1.5px solid var(--border); margin: 2rem 0; }
+
+  @media (max-width: 500px) {
+    .signs-grid { grid-template-columns: 1fr; }
+    .keyterms { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="chapter-tag">Chapter 11 · Computing Notes</div>
+    <h1>Security &amp; Privacy</h1>
+    <p>Definitions · Threats · Defences · Good Computing Practices</p>
+  </header>
+
+  <!-- 11.1 Definitions -->
+  <div class="section">
+    <div class="section-title">11.1</div>
+    <h2>Defining Security &amp; Privacy</h2>
+
+    <p><strong>Security</strong> is the practice of protecting the <em>confidentiality, integrity and availability</em> of data — applicable to all data types, protecting against unauthorised access, modification, or disruption. Think of it as a <em>padlock on a door</em>.</p>
+    <p><strong>Privacy</strong> is the practice of protecting the <em>confidentiality and control</em> of <strong>personal data</strong> (name, DOB, address, email, IP, etc.) — including how it is used or shared. Think of it as <em>curtains on a window</em>.</p>
+
+    <h3>The CIA Triad (Security Principles)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Principle</th><th>Definition</th><th>Applies to</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Confidentiality</strong></td><td>Protection from unauthorised access</td><td>Security &amp; Privacy</td></tr>
+          <tr><td><strong>Integrity</strong></td><td>Protection from unauthorised modification</td><td>Security</td></tr>
+          <tr><td><strong>Availability</strong></td><td>Ability to access data in a timely, uninterrupted way</td><td>Security</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Security vs Privacy — Comparison</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Factor</th><th>Security</th><th>Privacy</th></tr></thead>
+        <tbody>
+          <tr><td>Kind of Data</td><td>All data (general)</td><td>Personal data specifically</td></tr>
+          <tr><td>Protected From</td><td>Unauthorised access/modification, disruption; malicious/illegal acts</td><td>Unauthorised access; loss of control over data; even non-malicious/legal acts user didn't consent to</td></tr>
+          <tr><td>How Enforced</td><td>Encryption, firewalls, Computer Misuse Act, security settings</td><td>Encryption, PDPA, privacy policies &amp; settings</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Key Notes on Each Principle</h3>
+    <p><strong>Confidentiality breach</strong> — passwords/bank info stolen → identity theft, fraud, blackmail; trade secrets exposed → financial &amp; legal consequences.</p>
+    <p><strong>Integrity breach</strong> — data altered without permission → untrustworthy data; e.g. bank transactions redirected; medical records modified → incorrect treatment.</p>
+    <p><strong>Availability breach</strong> — e.g. <em>denial-of-service (DoS) attack</em> floods a server so it can't respond to legitimate requests. Also, <em>data corruption</em> (errors/inconsistencies introduced) can render data unusable, affecting availability too.</p>
+
+    <div class="callout">
+      <strong>Integrity → Availability link</strong>
+      Corrupted data that other data depends on (e.g. a table header) can make the entire dataset unusable, not just the corrupted cells.
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 11.2 Threats -->
+  <div class="section">
+    <div class="section-title">11.2</div>
+    <h2>Threats</h2>
+
+    <div class="cards">
+      <div class="card red">
+        <h4>Human Actions</h4>
+        <p><span class="tag red">Integrity</span><span class="tag red">Privacy</span><br>
+        Physical: dropping storage media, improper ejection.<br>
+        Non-physical: overwriting shared files, incorrect data entry, sending personal data to wrong recipients.</p>
+      </div>
+      <div class="card red">
+        <h4>Adware</h4>
+        <p><span class="tag red">Security</span><span class="tag red">Privacy</span><br>
+        Malware that installs itself silently and shows unwanted ads (pop-ups or injected into pages). May collect browsing data and promote phishing sites.</p>
+      </div>
+      <div class="card red">
+        <h4>Spyware</h4>
+        <p><span class="tag red">Confidentiality</span><span class="tag red">Privacy</span><br>
+        Hidden malware that secretly collects personal info and sends it to attackers — enabling further unauthorised access.</p>
+      </div>
+      <div class="card red">
+        <h4>Cookies</h4>
+        <p><span class="tag red">Privacy</span><br>
+        Small data files stored by browsers. Not inherently malicious, but ad networks can use them to track users across multiple sites.</p>
+      </div>
+      <div class="card red">
+        <h4>Phishing</h4>
+        <p><span class="tag red">Confidentiality</span><span class="tag red">Privacy</span><br>
+        Fake emails/messages/websites impersonating reputable companies to steal passwords and credit card details.</p>
+      </div>
+      <div class="card red">
+        <h4>Pharming</h4>
+        <p><span class="tag red">Confidentiality</span><span class="tag red">Privacy</span><br>
+        More severe than phishing — intercepts requests to a legitimate URL and silently redirects to a fake site. Requires malware on victim's device or control of a router/server.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <strong>Phishing vs Pharming</strong>
+      Phishing relies on tricking the user into clicking a fake link. Pharming redirects automatically — the user types the correct URL but still lands on the fake site.
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 11.3 Defences -->
+  <div class="section">
+    <div class="section-title">11.3</div>
+    <h2>Defences</h2>
+
+    <div class="cards">
+      <div class="card green">
+        <h4>Anti-Malware Programs</h4>
+        <p>Detects, blocks, and removes malware. Relies on a <em>signature database</em> that must be kept updated to detect new threats.</p>
+      </div>
+      <div class="card green">
+        <h4>Firewalls</h4>
+        <p>Hardware or software that monitors network packets and blocks/allows traffic based on configurable rules. Can block adware/spyware from phoning home.</p>
+      </div>
+      <div class="card green">
+        <h4>Encryption</h4>
+        <p>Encodes data so it appears random and meaningless without the secret key. Used to protect data in transit (e.g. website passwords).</p>
+      </div>
+      <div class="card green">
+        <h4>PDPA (Singapore)</h4>
+        <p>Legal protection. Organisations must: (1) seek consent, (2) disclose purpose, (3) retain data only as long as needed. Violations → heavy fines.</p>
+      </div>
+    </div>
+
+    <h3>Good Computing Practices</h3>
+
+    <h3 style="font-size:0.9rem; color: var(--accent); margin-top:0.8rem;">Strong Passwords</h3>
+    <p><strong>Authentication</strong> verifies user identity. A strong password uses a mix of uppercase, lowercase, numbers, and symbols. Avoid birthdates/surnames. Use unique passwords per account; update every 90 days.</p>
+
+    <h3 style="font-size:0.9rem; color: var(--accent);">Multi-Factor Authentication (MFA)</h3>
+    <p>Authentication factors: (1) something you <em>know</em> (password/PIN), (2) something you <em>own</em> (phone/security token), (3) something you <em>are</em> (biometrics). <strong>Two-factor authentication</strong> combines two categories — much harder to compromise.</p>
+    <p><strong>Biometrics</strong> — fingerprint, face, voice, iris, DNA. More secure than passwords as characteristics are unique and hard to replicate.</p>
+
+    <h3 style="font-size:0.9rem; color: var(--accent);">Identify Scam Attempts</h3>
+    <p>Signs of phishing emails/messages:</p>
+
+    <div class="signs-grid">
+      <div class="sign"><h4>Requests for Personal Data</h4><p>Legitimate companies/banks never ask for passwords or card details by email.</p></div>
+      <div class="sign"><h4>Errors</h4><p>Spelling, grammar, or factual errors suggest the message isn't from a real source.</p></div>
+      <div class="sign"><h4>Generic Greetings</h4><p>"Dear Customer" or "Dear User" — likely auto-generated. May get name right but other details wrong.</p></div>
+      <div class="sign"><h4>Suspicious Email Addresses</h4><p>Free providers (Gmail/Yahoo), misspelled domain names, or random usernames.</p></div>
+      <div class="sign"><h4>Suspicious Links</h4><p>Hover over links before clicking — check the actual destination URL.</p></div>
+      <div class="sign"><h4>Urgent / Too Good to Be True</h4><p>Pressure tactics to act fast, or offers that seem unrealistic.</p></div>
+    </div>
+
+    <h3 style="font-size:0.9rem; color: var(--accent);">Other Good Practices</h3>
+    <ul>
+      <li><strong>Update software regularly</strong> — patches fix bugs that malware exploits.</li>
+      <li><strong>Manage cookies</strong> — configure browser to block/delete cookies from untrusted sites.</li>
+      <li><strong>Regular backups</strong> — store on a separate device/online server; restores data if corruption or accidental overwrite occurs.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- Key Terms Reference -->
+  <div class="section">
+    <div class="section-title">Key Terms</div>
+    <h2>Glossary</h2>
+    <div class="keyterms">
+      <div class="keyterm"><strong>Security</strong><span>Protecting confidentiality, integrity &amp; availability of data</span></div>
+      <div class="keyterm"><strong>Privacy</strong><span>Protecting confidentiality &amp; control of personal data</span></div>
+      <div class="keyterm"><strong>Personal Data</strong><span>Data that can identify a person (name, DOB, address, IP, etc.)</span></div>
+      <div class="keyterm"><strong>Confidentiality</strong><span>Protection from unauthorised access</span></div>
+      <div class="keyterm"><strong>Integrity</strong><span>Protection from unauthorised modification</span></div>
+      <div class="keyterm"><strong>Availability</strong><span>Timely, uninterrupted access to data</span></div>
+      <div class="keyterm"><strong>Data Corruption</strong><span>Introduction of errors/inconsistencies into data</span></div>
+      <div class="keyterm"><strong>DoS Attack</strong><span>Overwhelms a server so it can't respond to legitimate requests</span></div>
+      <div class="keyterm"><strong>Malware</strong><span>Software used to damage, disrupt, or gain unauthorised access</span></div>
+      <div class="keyterm"><strong>Adware</strong><span>Malware that installs silently and shows unwanted ads</span></div>
+      <div class="keyterm"><strong>Spyware</strong><span>Hidden malware that secretly collects &amp; sends personal data</span></div>
+      <div class="keyterm"><strong>Cookies</strong><span>Small data files stored by browsers when visiting websites</span></div>
+      <div class="keyterm"><strong>Phishing</strong><span>Fake emails/sites impersonating companies to steal data</span></div>
+      <div class="keyterm"><strong>Pharming</strong><span>Redirects legitimate URL requests to fake websites silently</span></div>
+      <div class="keyterm"><strong>Anti-Malware</strong><span>Software to detect, stop &amp; remove malware</span></div>
+      <div class="keyterm"><strong>Signature</strong><span>Unique identifying characteristics used to detect malware</span></div>
+      <div class="keyterm"><strong>Firewall</strong><span>Device/program preventing unauthorised access to/from a network</span></div>
+      <div class="keyterm"><strong>Encryption</strong><span>Encoding data so a secret key is required to decode it</span></div>
+      <div class="keyterm"><strong>PDPA</strong><span>Singapore law governing collection, use &amp; protection of personal data</span></div>
+      <div class="keyterm"><strong>Authentication</strong><span>Process of verifying a user's identity</span></div>
+      <div class="keyterm"><strong>Biometrics</strong><span>Authentication using human physical characteristics</span></div>
+      <div class="keyterm"><strong>Two-Factor Auth</strong><span>Uses both something you know and something you own</span></div>
+      <div class="keyterm"><strong>Backup</strong><span>A copy of data stored separately so it can be recovered if lost</span></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
+"""
